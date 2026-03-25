@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pomodoro</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<!-- Arka plan video -->
+<video autoplay muted loop id="bgVideo">
+    <source src="https://drive.google.com/uc?id=1vxPQVlxpzlG-XNclXrdLZvhCx7q-UYtN&export=download" type="video/mp4">
+</video>
+
+<div class="pomodoroBox">
+    <h1>Pomodoro</h1>
+
+    Çalışma Süresi (dk):
+    <input id="workTime" value="25"><br><br>
+
+    Mola Süresi (dk):
+    <input id="breakTime" value="5"><br><br>
+
+    <h2 id="timer">00:00</h2>
+
+    <button onclick="startPomodoro()">Başlat</button>
+    <button onclick="pausePomodoro()">Duraklat</button>
+    <button onclick="resumePomodoro()">Devam</button>
+    <button onclick="resetPomodoro()">Sıfırla</button>
+    <button onclick="menu()">Menü</button>
+
+    <h3 id="xpInfo"></h3>
+</div>
+
+<script src="../script.js"></script>
+
+<script>
+let timer;
+let timeLeft;
+let isPaused = false;
+let workMinutes = 25;
+
+function startPomodoro(){
+    workMinutes = parseInt(document.getElementById("workTime").value);
+    timeLeft = workMinutes * 60;
+    runTimer();
+}
+
+function runTimer(){
+    timer = setInterval(function(){
+        if(!isPaused){
+            timeLeft--;
+
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+
+            document.getElementById("timer").innerText =
+                String(minutes).padStart(2,'0') + ":" +
+                String(seconds).padStart(2,'0');
+
+            if(timeLeft <= 0){
+                clearInterval(timer);
+                pomodoroBitti(workMinutes);
+                document.getElementById("xpInfo").innerText =
+                    "Pomodoro bitti! " + (workMinutes*2) + " XP kazandın";
+            }
+        }
+    }, 1000);
+}
+
+function pausePomodoro(){ isPaused = true; }
+function resumePomodoro(){ isPaused = false; }
+
+function resetPomodoro(){
+    clearInterval(timer);
+    document.getElementById("timer").innerText = "00:00";
+}
+
+function menu(){
+    window.location.href = "../menu.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<button onclick="menuDon()">Menüye Dön</button>
+
+<h2>Görevler</h2>
+
+<input id="gorevAd" placeholder="Görev">
+<input id="gorevCoin" placeholder="Coin">
+<button onclick="gorevEkle()">Ekle</button>
+
+<ul id="liste"></ul>
+
+<script src="../script.js"></script>
+
+<script>
+let gorevler = JSON.parse(localStorage.getItem("gorevler")) || [];
+
+function gorevEkle(){
+    let ad = document.getElementById("gorevAd").value;
+    let coin = document.getElementById("gorevCoin").value;
+
+    gorevler.push({ad, coin, tamamlandi:false});
+    localStorage.setItem("gorevler", JSON.stringify(gorevler));
+    goster();
+}
+
+function goster(){
+    let liste = document.getElementById("liste");
+    liste.innerHTML = "";
+
+    gorevler.forEach((g,index)=>{
+        liste.innerHTML += `
+        <li>
+            <input type="checkbox" onchange="tamamla(${index})" ${g.tamamlandi ? "checked" : ""}>
+            <span style="text-decoration:${g.tamamlandi ? "line-through" : "none"}">
+                ${g.ad} (${g.coin} coin)
+            </span>
+            <button onclick="sil(${index})">Sil</button>
+        </li>`;
+    });
+}
+
+function tamamla(i){
+    if(!gorevler[i].tamamlandi){
+        gorevler[i].tamamlandi = true;
+
+        let coinMiktar = Number(gorevler[i].coin);
+        gorevTamamla(coinMiktar);
+
+        alert("Görev tamamlandı! +" + coinMiktar + " coin kazandın");
+    }else{
+        gorevler[i].tamamlandi = false;
+    }
+
+    localStorage.setItem("gorevler", JSON.stringify(gorevler));
+    goster();
+}
+
+function sil(i){
+    gorevler.splice(i,1);
+    localStorage.setItem("gorevler", JSON.stringify(gorevler));
+    goster();
+}
+
+function menuDon(){
+    window.location.href="../menu.html";
+}
+
+goster();
+</script>
+
+</body>
+</html>

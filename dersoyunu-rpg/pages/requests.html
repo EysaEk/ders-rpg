@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<h1>Arkadaş İstekleri</h1>
+<div id="requests">Yükleniyor...</div>
+
+<button onclick="menu()">Menü</button>
+
+<script src="../script.js"></script>
+
+<script>
+function menu(){
+    window.location.href = "../menu.html";
+}
+
+window.onload = function(){
+    istekleriYukle();
+}
+</script>
+
+</body>
+</html>

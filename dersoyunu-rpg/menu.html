@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menü</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Ana Menü</h1>
+
+<div class="box">
+    <button onclick="git('pages/pomodoro.html')">Pomodoro</button><br><br>
+    <button onclick="git('pages/gorevler.html')">Görevler</button><br><br>
+    <button onclick="git('pages/oduller.html')">Ödüller</button><br><br>
+    <button onclick="git('pages/leaderboard.html')">Rekabet</button><br><br>
+    <button onclick="git('pages/profil.html')">Profil</button><br><br>
+    <button onclick="git('pages/friends.html')">Arkadaş Ekle</button><br><br>
+    <button onclick="git('pages/requests.html')">Arkadaş İstekleri</button><br><br>
+</div>
+
+<button onclick="cikis()">Çıkış Yap</button>
+
+<script src="script.js"></script>
+<script>
+function git(sayfa){
+    window.location.href = sayfa;
+}
+
+function cikis(){
+    localStorage.removeItem("username");
+    window.location.href = "index.html";
+}
+
+if(!localStorage.getItem("username")){
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

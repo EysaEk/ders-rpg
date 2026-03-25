@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<button onclick="menuDon()">Menüye Dön</button>
+
+<h2>Ödüller</h2>
+
+<input id="odulAd" placeholder="Ödül">
+<input id="odulCoin" placeholder="Fiyat">
+<button onclick="odulEkle()">Ekle</button>
+
+<ul id="liste"></ul>
+
+<script src="../script.js"></script>
+
+<script>
+let oduller = JSON.parse(localStorage.getItem("oduller")) || [];
+
+function odulEkle(){
+    let ad = document.getElementById("odulAd").value;
+    let coin = document.getElementById("odulCoin").value;
+
+    oduller.push({ad,coin});
+    localStorage.setItem("oduller", JSON.stringify(oduller));
+    goster();
+}
+
+function goster(){
+    let liste = document.getElementById("liste");
+    liste.innerHTML="";
+
+    oduller.forEach((o,index)=>{
+        liste.innerHTML +=
+        `<li>${o.ad} - ${o.coin} coin
+        <button onclick="satinal(${index})">Satın Al</button>
+        <button onclick="sil(${index})">Sil</button></li>`;
+    });
+}
+
+function satinal(i){
+    let fiyat = Number(oduller[i].coin);
+    odulAl(fiyat);
+    alert("Ödül satın alındı!");
+}
+
+function sil(i){
+    oduller.splice(i,1);
+    localStorage.setItem("oduller", JSON.stringify(oduller));
+    goster();
+}
+
+function menuDon(){
+    window.location.href="../menu.html";
+}
+
+goster();
+</script>
+
+</body>
+</html>

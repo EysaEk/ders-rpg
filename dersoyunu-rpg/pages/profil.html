@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<h2>Profil</h2>
+
+<div class="box">
+    <p id="kullaniciAdi"></p>
+    <p id="level"></p>
+    <p id="xp"></p>
+    <p id="coin"></p>
+    <p id="minutes"></p>
+
+    <div class="xpBarDis">
+        <div id="xpBar" class="xpBarIc"></div>
+    </div>
+
+    <p id="xpGerekli"></p>
+</div>
+
+<button onclick="menuDon()">Menüye Dön</button>
+
+<script src="../script.js"></script>
+
+<script>
+function menuDon(){
+    window.location.href = "../menu.html";
+}
+
+function profilGoster(){
+    let username = localStorage.getItem("username");
+
+    fetch(API_URL + "?action=getUser&username=" + username)
+    .then(res => res.json())
+    .then(k => {
+
+        document.getElementById("kullaniciAdi").innerText = "Kullanıcı: " + username;
+        document.getElementById("level").innerText = "Level: " + k.level;
+        document.getElementById("xp").innerText = "XP: " + k.xp;
+        document.getElementById("coin").innerText = "Coin: " + k.coin;
+        document.getElementById("minutes").innerText = "Dakika: " + k.minutes;
+
+        let gerekli = (Number(k.level) + 1) * 25;
+        document.getElementById("xpGerekli").innerText =
+            "Sonraki level için: " + gerekli + " XP";
+
+        let yuzde = (k.xp / gerekli) * 100;
+        document.getElementById("xpBar").style.width = yuzde + "%";
+    });
+}
+
+profilGoster();
+</script>
+
+</body>
+</html>

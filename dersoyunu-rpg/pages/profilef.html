@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<h1>Profil</h1>
+<div id="profile">Yükleniyor...</div>
+
+<button onclick="menu()">Menü</button>
+
+<script src="../script.js"></script>
+
+<script>
+function menu(){
+    window.location.href = "../menu.html";
+}
+
+window.onload = function(){
+    let user = localStorage.getItem("profileUser");
+
+    fetch(API_URL + "?action=friendProfile&username=" + user)
+    .then(res => res.json())
+    .then(p => {
+        let onlineText = "Offline";
+
+        if(p.lastOnline){
+            let last = new Date(p.lastOnline);
+            let now = new Date();
+            let diff = (now - last)/60000;
+
+            if(diff < 2){
+                onlineText = "Online";
+            }
+        }
+
+        document.getElementById("profile").innerHTML = `
+            <h2>${p.username}</h2>
+            <p>Level: ${p.level}</p>
+            <p>XP: ${p.xp}</p>
+            <p>Çalışma: ${Math.floor(p.minutes/60)} saat</p>
+            <p>Durum: ${onlineText}</p>
+        `;
+    });
+}
+</script>
+
+</body>
+</html>
